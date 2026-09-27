@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-// Função recursiva para somar os dígitos de N
 int somaDigitos(int n) {
     if (n == 0) {
         return 0; 
@@ -8,7 +7,6 @@ int somaDigitos(int n) {
     return (n % 10) + somaDigitos(n / 10);
 }
 
-// Função recursiva para contar quantas vezes a soma precisa ser feita até ser < 10
 int vezes(int N) {
     int k = somaDigitos(N);
     
