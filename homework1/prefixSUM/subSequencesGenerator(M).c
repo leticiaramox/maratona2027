@@ -1,3 +1,4 @@
+'''
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -77,3 +78,43 @@ int main() {
 
     return 0;
 }
+'''
+'''
+#include <stdio.h>
+
+long long countSubsets(long long arr[], int n, long long target) {
+    if (n == 0) {
+        return (target == 0) ? 1 : 0;
+    }
+
+    long long exclude = countSubsets(arr, n - 1, target);
+
+    long long include = countSubsets(arr, n - 1, target - arr[n - 1]);
+
+    return exclude + include;
+}
+
+int main() {
+    int n;
+    long long soma;
+    if (scanf("%d %lld", &n, &soma) != 2) return 0;
+
+    long long arr[n];
+    for (int i = 0; i < n; i++) {
+        scanf("%lld", &arr[i]);
+    }
+    
+    long long sum = 0;
+    for (int i = 0; i < n; i++) {
+        sum += arr[i];
+    }
+
+    long long count = countSubsets(arr, n, soma);
+    
+    if (sum == soma) count--;
+    printf("%lld\n", count);
+
+    return 0;
+} '''
+
+
