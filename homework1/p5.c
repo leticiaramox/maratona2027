@@ -1,65 +1,55 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-
-int count_num(long long *arr, int tamanho, long long alvo, long long* copia) {
-    int contador = 0;
-    for (int i = 0; i < tamanho; i++) {
-        if (arr[i] == alvo) {
-            contador++;
-            copia[i] = 0;
-        }
-    }
-    return contador;
+int cmp(const void* a, const void* b) {
+    long long x = *(const long long*)a, y = *(const long long*)b;
+    return (x > y) - (x < y);
 }
 
-int cont(int q, int idx, long long* local) {
-    
-    int contador = 0;
-    int l = q;
-    
-    long long* copia = malloc(q * sizeof(long long));
-    if (copia == NULL) return 1;
-    
-    memcpy(copia, &local, q * sizeof(long long));
-    for (int i = 0; i < q; i++) {
-        if (copia[i] != 0) {
-            int c = count_num(local, q, local[i], copia);
-            contador++;
-        }
+int buscaIndice(long long* v, int m, long long val) {
+    int lo = 0, hi = m - 1;
+    while (lo <= hi) {
+        int mid = lo + (hi - lo) / 2;
+        if (v[mid] == val) return mid;
+        if (v[mid] < val) lo = mid + 1;
+        else hi = mid - 1;
     }
-    
-    free(copia);
-    return contador;
-}
-
-long long* listona(int q, int n, long long lista[n], int idx) {
-    
-    long long* listinha = malloc(q * sizeof(long long));
-    if (listinha == NULL) return NULL;
-    
-    memcpy(listinha, &lista[idx], q * sizeof(long long));
-    
-    return listinha;
+    return -1;
 }
 
 int main() {
-    int n, q;
-    scanf("%d %d\n", &n, &q);
-    
-    long long numeros[n];
+    int n, k;
+    scanf("%d %d", &n, &k);
+
+    long long* x = malloc(n * sizeof(long long));
+    long long* ord = malloc(n * sizeof(long long));
     for (int i = 0; i < n; i++) {
-        scanf(" %lld", &numeros[i]);
+        scanf("%lld", &x[i]);
+        ord[i] = x[i];
     }
-    
-    for (int i = 0; i < (n - q + 1); i++) {
-        long long* listaLocal = listona(q, n, numeros, i);
-        
-        int c = cont(q, i, listaLocal);
-        
-        printf("%d ", c);
-        
-        free(listaLocal);
+
+    qsort(ord, n, sizeof(long long), cmp);
+    int m = 0;
+    for (int i = 0; i < n; i++)
+        if (i == 0 || ord[i] != ord[i - 1]) ord[m++] = ord[i];
+
+    int* id = malloc(n * sizeof(int));
+    for (int i = 0; i < n; i++) id[i] = buscaIndice(ord, m, x[i]);
+
+    int* freq = calloc(m, sizeof(int));
+    int distintos = 0;
+
+    for (int i = 0; i < n; i++) {
+        if (freq[id[i]]++ == 0) distintos++;
+
+        if (i >= k) {
+            if (--freq[id[i - k]] == 0) distintos--;
+        }
+
+        if (i >= k - 1) printf("%d ", distintos);
     }
+    printf("\n");
+
+    free(x); free(ord); free(id); free(freq);
+    return 0;
 }
