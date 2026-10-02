@@ -21,10 +21,4 @@ int main() {
         if (it != freq.end()) ans += it->second;
         freq[pre]++;
     }
-
-    cout << ans << "\n";
-    return 0;
-}
-    cout << counter(num, n, s) + ajuste << endl; 
-    
 }
