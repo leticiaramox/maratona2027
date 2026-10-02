@@ -21,4 +21,6 @@ int main() {
         if (it != freq.end()) ans += it->second;
         freq[pre]++;
     }
+     cout << ans << "\n";
+    return 0;
 }
