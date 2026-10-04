@@ -41,6 +41,46 @@ int main() {
         }
     }
 
+
+    // SEGUNDA ABORDAGEM
+
+    #include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    long long l, r, x;
+    if (!(cin >> n >> l >> r >> x)) return 0;
+
+    vector<long long> p(n);
+    for (int i = 0; i < n; i++) cin >> p[i];
+
+    sort(p.begin(), p.end());
+
+    int total_subarrays = 0;
+
+    for (int i = 0; i < n; i++) {
+        long long soma_atual = 0;
+        for (int j = i; j < n; j++) {
+            soma_atual += p[j];
+            long long dif = p[j] - p[i];
+
+            if (j > i && dif >= x && soma_atual >= l && soma_atual <= r) {
+                total_subarrays++;
+            }
+        }
+    }
+
+    cout << total_subarrays << "\n";
+    return 0;
+}
+
     cout << total_validos << "\n";
 
     return 0;
