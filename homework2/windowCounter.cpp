@@ -42,9 +42,9 @@ int main() {
     }
 
 
-    // SEGUNDA ABORDAGEM
+// SEGUNDA ABORDAGEM
 
-    #include <iostream>
+#include <iostream>
 #include <vector>
 #include <algorithm>
 
